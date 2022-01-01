@@ -18,14 +18,24 @@ kotlin {
     }
 
     sourceSets {
-        val commonMain by getting
+        val commonMain by getting {
+            dependencies {
+                api("org.jetbrains.kotlinx:kotlinx-datetime:0.3.1")
+                implementation(
+                    "com.squareup.sqldelight:coroutines-extensions:1.5.3")
+            }
+        }
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
             }
         }
-        val androidMain by getting
+        val androidMain by getting {
+            dependencies {
+                implementation("com.squareup.sqldelight:android-driver:1.5.3")
+            }
+        }
         val androidTest by getting {
             dependencies {
                 implementation(kotlin("test-junit"))
@@ -40,6 +50,9 @@ kotlin {
             iosX64Main.dependsOn(this)
             iosArm64Main.dependsOn(this)
             //iosSimulatorArm64Main.dependsOn(this)
+            dependencies {
+                implementation("com.squareup.sqldelight:native-driver:1.5.3")
+            }
         }
         val iosX64Test by getting
         val iosArm64Test by getting
@@ -54,7 +67,7 @@ kotlin {
 }
 
 sqldelight {
-    database("Todo") {
+    database("TodoDb") {
         packageName = "com.alerecchi.todo.db"
     }
 }

@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="androidApp/src/main/res/drawable/ic_baseline_create_24.xml" value="0.1815" />
+        <entry key="androidApp/src/main/res/drawable/ic_check.xml" value="0.1" />
+        <entry key="androidApp/src/main/res/layout/fragment_task_details.xml" value="0.2811594202898551" />
+        <entry key="androidApp/src/main/res/layout/fragment_task_list.xml" value="0.25" />
+        <entry key="androidApp/src/main/res/layout/view_task.xml" value="0.335" />
+      </map>
+    </option>
+  </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>

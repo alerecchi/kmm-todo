@@ -1,8 +1,27 @@
 package com.alerecchi.kmm_todo.utils
 
-interface StateMachine <STATE, ACTION> {
+abstract class StateMachine <STATE: Any, ACTION>: Subject<STATE> {
 
-    suspend fun handleAction(action: ACTION)
+    protected abstract var lastState: STATE
 
-    suspend fun reducer(state: STATE, action: ACTION): STATE
+    private val observables = mutableListOf<Observer<STATE>>()
+
+    override fun register(observer: Observer<STATE>) {
+        observables.add(observer)
+    }
+
+    override fun unRegister(observer: Observer<STATE>) {
+        observables.remove(observer)
+    }
+
+    override fun updateState(state: STATE) {
+        lastState = state
+        observables.forEach { it.updateState(state) }
+    }
+
+    suspend fun handleAction(action: ACTION) {
+        updateState(reducer(lastState, action))
+    }
+
+    protected abstract suspend fun reducer(state: STATE, action: ACTION): STATE
 }

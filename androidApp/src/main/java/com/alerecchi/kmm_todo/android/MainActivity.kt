@@ -4,17 +4,15 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.alerecchi.kmm_todo.Greeting
 import android.widget.TextView
-
-fun greet(): String {
-    return Greeting().greeting()
-}
+import com.alerecchi.kmm_todo.android.list.TaskListFragment
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val tv: TextView = findViewById(R.id.text_view)
-        tv.text = greet()
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.main_view, TaskListFragment())
+            .commit()
     }
 }
