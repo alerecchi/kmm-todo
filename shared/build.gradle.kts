@@ -21,6 +21,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api("org.jetbrains.kotlinx:kotlinx-datetime:0.3.1")
+                implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0")
                 implementation(
                     "com.squareup.sqldelight:coroutines-extensions:1.5.3")
             }
