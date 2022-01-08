@@ -15,6 +15,10 @@ struct TaskViewModel: Hashable {
 	let title: String
 	let completed: Bool
 	let date: Date?
+
+	func toggle() {
+
+	}
 }
 
 private extension Task {
@@ -33,6 +37,12 @@ private extension Task {
 	}
 }
 
+private extension TaskViewModel {
+	var asTask: Task {
+		Task(id: id, title: title, completed: completed, date: Kotlinx_datetimeLocalDate(year: 1, monthNumber: 1, dayOfMonth: 1))
+	}
+}
+
 enum TaskListState: Equatable {
 	case loading
 	case taskList([TaskViewModel])
@@ -40,7 +50,10 @@ enum TaskListState: Equatable {
 
 enum TaskListAction: Equatable {
 	case add
-	case modify
+	case load
+	case modify(id: Int64)
+	case toggle(TaskViewModel)
+	case delete(id: Int64)
 }
 
 final class TaskListViewModel: Observer {
@@ -54,7 +67,7 @@ final class TaskListViewModel: Observer {
 	}
 
 	var action: AnyPublisher<TaskListAction, Never> {
-		actionSubject.removeDuplicates().receive(on: RunLoop.main).eraseToAnyPublisher()
+		actionSubject.receive(on: RunLoop.main).eraseToAnyPublisher()
 	}
 
 	init(taskListStateMachine: TaskListStateMachine) {
@@ -68,24 +81,21 @@ final class TaskListViewModel: Observer {
 	}
 
 	func unbind() {
-
+		taskListStateMachine.unRegister(observer: self)
 	}
 
-	func loadTasks() {
-		taskListStateMachine.handleAction(action: shared.TaskListAction.LoadTasks()) { _, _ in
-
-		}
-	}
-
-	func addTask() {
-		taskListStateMachine.handleAction(action: shared.TaskListAction.AddTask()) { _, _ in
-
-		}
-	}
-
-	func openTask(_ id: Int64) {
-		taskListStateMachine.handleAction(action: shared.TaskListAction.ModifyTask(id: id)) { _, _ in
-
+	func perform(_ action: TaskListAction) {
+		switch action {
+		case .load:
+			loadTasks()
+		case .add:
+			addTask()
+		case .modify(let id):
+			openTask(id)
+		case .toggle(let taskViewModel):
+			toggle(taskViewModel)
+		case .delete(let id):
+			delete(id)
 		}
 	}
 
@@ -99,9 +109,41 @@ final class TaskListViewModel: Observer {
 		case let navigate as shared.TaskListState.NavigateToDetails where navigate.id == nil:
 			actionSubject.send(.add)
 		case let navigate as shared.TaskListState.NavigateToDetails where navigate.id != nil:
-			actionSubject.send(.modify)
+			actionSubject.send(.modify(id: navigate.id!.int64Value))
 		default:
 			break
+		}
+	}
+
+	// MARK: Private methods
+
+	private func loadTasks() {
+		taskListStateMachine.handleAction(action: shared.TaskListAction.LoadTasks()) { _, _ in
+			print("load")
+		}
+	}
+
+	private func addTask() {
+		taskListStateMachine.handleAction(action: shared.TaskListAction.AddTask()) { _, _ in
+			print("add")
+		}
+	}
+
+	private func openTask(_ id: Int64) {
+		taskListStateMachine.handleAction(action: shared.TaskListAction.ModifyTask(id: id)) { _, _ in
+			print("open")
+		}
+	}
+
+	private func toggle(_ viewModel: TaskViewModel) {
+		taskListStateMachine.handleAction(action: shared.TaskListAction.ToggleTask(task: viewModel.asTask)) { _, _ in
+			print("toggle")
+		}
+	}
+
+	private func delete(_ id: Int64) {
+		taskListStateMachine.handleAction(action: shared.TaskListAction.DeleteTask(id: id)) { _, _ in
+			print("delete")
 		}
 	}
 	

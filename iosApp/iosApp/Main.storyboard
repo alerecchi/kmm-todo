@@ -105,10 +105,44 @@
                     <view key="view" contentMode="scaleToFill" id="ZDd-P2-aPV">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Pwc-OE-LaL">
+                                <rect key="frame" x="8" y="108" width="398" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no"/>
+                            </textField>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Date" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Frw-EX-u1f">
+                                <rect key="frame" x="8" y="150" width="398" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" textContentType="date-time"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yoY-11-Vec">
+                                <rect key="frame" x="179.5" y="228" width="55.5" height="31"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Save"/>
+                                <connections>
+                                    <action selector="save" destination="uqT-78-RCi" eventType="touchUpInside" id="bwd-Nu-aPa"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="d2p-0R-EDf"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="yoY-11-Vec" firstAttribute="top" secondItem="Frw-EX-u1f" secondAttribute="bottom" constant="44" id="AuT-LK-gwQ"/>
+                            <constraint firstItem="Frw-EX-u1f" firstAttribute="leading" secondItem="d2p-0R-EDf" secondAttribute="leading" constant="8" id="M5z-ZE-Bfo"/>
+                            <constraint firstItem="Frw-EX-u1f" firstAttribute="top" secondItem="Pwc-OE-LaL" secondAttribute="bottom" constant="8" id="P43-Om-kGI"/>
+                            <constraint firstItem="Pwc-OE-LaL" firstAttribute="leading" secondItem="d2p-0R-EDf" secondAttribute="leading" constant="8" id="Z3s-ES-b3k"/>
+                            <constraint firstItem="d2p-0R-EDf" firstAttribute="trailing" secondItem="Frw-EX-u1f" secondAttribute="trailing" constant="8" id="e4M-ub-HEQ"/>
+                            <constraint firstItem="Pwc-OE-LaL" firstAttribute="top" secondItem="d2p-0R-EDf" secondAttribute="top" constant="20" id="l5e-v9-bj8"/>
+                            <constraint firstItem="yoY-11-Vec" firstAttribute="centerX" secondItem="ZDd-P2-aPV" secondAttribute="centerX" id="rZi-Yq-nyE"/>
+                            <constraint firstItem="d2p-0R-EDf" firstAttribute="trailing" secondItem="Pwc-OE-LaL" secondAttribute="trailing" constant="8" id="scW-pd-JZk"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="e8a-FU-Hx4"/>
+                    <connections>
+                        <outlet property="taskDateTextField" destination="Frw-EX-u1f" id="v43-hL-goz"/>
+                        <outlet property="taskTitleTextField" destination="Pwc-OE-LaL" id="EgT-aV-miB"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6l6-qE-7M3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
