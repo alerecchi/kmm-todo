@@ -22,7 +22,12 @@ private class Datasource: UITableViewDiffableDataSource<TaskListSection, TaskVie
 	}
 
 	override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-		true
+		guard let model = itemIdentifier(for: indexPath) else {
+			return false
+		}
+
+
+		return model.completed
 	}
 
 	override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
