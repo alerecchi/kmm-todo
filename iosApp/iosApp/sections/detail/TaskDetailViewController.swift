@@ -55,6 +55,12 @@ final class TaskDetailViewController: UIViewController {
 		viewModel.loadTask(taskId)
 	}
 
+	override func viewWillDisappear(_ animated: Bool) {
+		super.viewWillDisappear(animated)
+
+		viewModel.unbind()
+	}
+
 	@IBAction func save() {
 		guard let title = bondTitle, let date = bondDate else {
 			navigationController?.popViewController(animated: true)
