@@ -57,8 +57,8 @@ final class TaskDetailViewController: UIViewController {
 
 	override func viewWillDisappear(_ animated: Bool) {
 		super.viewWillDisappear(animated)
-
 		viewModel.unbind()
+		cancellables.removeAll()
 	}
 
 	@IBAction func save() {
