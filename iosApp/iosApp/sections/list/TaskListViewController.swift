@@ -26,8 +26,7 @@ private class Datasource: UITableViewDiffableDataSource<TaskListSection, TaskVie
 			return false
 		}
 
-
-		return model.completed
+		return model.canDelete
 	}
 
 	override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -36,7 +35,6 @@ private class Datasource: UITableViewDiffableDataSource<TaskListSection, TaskVie
 			guard let model = itemIdentifier(for: indexPath) else {
 				return
 			}
-			print("delete \(model)")
 			taskListViewModel?.perform(.delete(id: model.id))
 		default:
 			break
@@ -88,7 +86,7 @@ final class TaskListViewController: UIViewController, UITableViewDelegate {
 
 	// MARK: UITableViewDelegate
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		guard let selectedItem = dataSource?.itemIdentifier(for: indexPath) else {
+		guard let selectedItem = dataSource?.itemIdentifier(for: indexPath), selectedItem.canSelect else {
 			return
 		}
 

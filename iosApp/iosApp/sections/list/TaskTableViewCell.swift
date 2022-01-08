@@ -33,8 +33,8 @@ final class TaskTableViewCell: UITableViewCell {
 	override func prepareForReuse() {
 		super.prepareForReuse()
 		checkmarkImageView.image = nil
-		titleLabel.text = nil
-		dateLabel.text = nil
+		titleLabel.attributedText = nil
+		dateLabel.attributedText = nil
 		currentViewModel = nil
 		executeAction = nil
 	}
@@ -52,8 +52,16 @@ final class TaskTableViewCell: UITableViewCell {
 
 		accessoryType = viewModel.completed ? .none : .disclosureIndicator
 
-		titleLabel.text = viewModel.title
-		dateLabel.text = format(date: viewModel.date)
+		let titleLabelAttributes: [NSAttributedString.Key : Any] = viewModel.completed ? [.strikethroughStyle: NSUnderlineStyle.single.rawValue] : [:]
+
+		var dateLabelAttributes: [NSAttributedString.Key : Any] = titleLabelAttributes
+
+		if viewModel.expired {
+			dateLabelAttributes[.foregroundColor] = UIColor.systemRed
+		}
+
+		titleLabel.attributedText = NSAttributedString(string: viewModel.title, attributes: titleLabelAttributes)
+		dateLabel.attributedText = NSAttributedString(string: format(date: viewModel.date) ?? "", attributes: dateLabelAttributes)
 
 		currentViewModel = viewModel
 		self.executeAction = executeAction

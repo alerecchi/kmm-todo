@@ -16,9 +16,17 @@ struct TaskViewModel: Hashable {
 	let completed: Bool
 	let date: Date?
 
-	func toggle() {
+	var canDelete: Bool { completed }
 
+	var expired: Bool {
+		guard let date = date else {
+			return false
+		}
+
+		return date < Date()
 	}
+
+	var canSelect: Bool { !canDelete }
 }
 
 private extension Task {
